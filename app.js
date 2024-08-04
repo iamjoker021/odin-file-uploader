@@ -1,7 +1,7 @@
 const dotenv = require('dotenv').config();
 const path = require('node:path');
 const express = require('express');
-const authRouter = require('./router/authRouter');
+const router = require('./router/router');
 const passport = require('./utils/passport');
 
 const session = require('express-session');
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 
 app.use((req, res, next) => { res.locals.currentUser = req.user; next(); });
-app.use('/', authRouter);
+app.use('/', router);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
