@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({extended: true}));
 
+app.use((req, res, next) => { res.locals.currentUser = req.user; next(); });
 app.use('/', authRouter);
 
 const PORT = process.env.PORT;
