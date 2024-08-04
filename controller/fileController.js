@@ -1,5 +1,10 @@
 const indexPage = (req, res) => {
-    res.render('home');
+    if (req.isAuthenticated()) {
+        res.render('home');
+    }
+    else {
+        res.redirect('/login');
+    }
 }
 
 module.exports = {

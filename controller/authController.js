@@ -3,7 +3,12 @@ const bycrypt = require('bcryptjs');
 const { addUserDB } = require("../model/user");
 
 const signupPage = (req, res) => {
-    res.render('sign-up');
+    if(!req.isAuthenticated()) {
+        res.render('sign-up');
+    }
+    else {
+        res.redirect('/');
+    }
 }
 
 const addUser = (req, res) => {
@@ -21,11 +26,27 @@ const addUser = (req, res) => {
 }
 
 const loginPage = (req, res) => {
-    res.render('login');
+    if(!req.isAuthenticated()) {
+        res.render('login');
+    }
+    else {
+        res.redirect('/');
+    }
+}
+
+const logoutUser = (req, res) => {
+    res.locals.currentUser = null;
+    req.logout((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.redirect('/login');
+    });
 }
 
 module.exports = {
     signupPage,
     loginPage,
-    addUser
+    addUser,
+    logoutUser
 }
