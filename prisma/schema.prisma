@@ -25,3 +25,23 @@ model Users {
   username String @unique
   password String
 }
+
+model Folder {
+  id Int @id @default(autoincrement())
+  name String
+  parentId Int?
+  parent Folder? @relation("ParentChildren", fields: [parentId], references: [id])
+  children Folder[] @relation("ParentChildren")
+  file File[]
+
+  @@unique([parentId, name])
+}
+
+model File {
+  id Int @id @default(autoincrement())
+  file_path String
+  parentId Int
+  parent Folder @relation(fields: [parentId], references: [id])
+
+  @@unique([parentId, file_path])
+}
