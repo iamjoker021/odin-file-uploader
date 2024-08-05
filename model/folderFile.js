@@ -29,20 +29,20 @@ const createFolderByName = async (folderName, parentId) => {
     })
 }
 
-// const getParentById = async (folderId) => {
-//     if (folderId === null) {
-//         return 'NULL';
-//     }
+const getParentById = async (folderId) => {
+    if (folderId === null) {
+        return [];
+    }
 
-//     const data = await prisma.folder.findUnique({
-//         where: { id: folderId }
-//     })
-//     const parentId = data.parentId;
-//     return parentId;
-//     // return '/' + await getParentById(parentId) + '/'
-// }
+    const data = await prisma.folder.findUnique({
+        where: { id: folderId },
+        select: { parentId: true, name: true }
+    })
+    return [{id: data.parentId, name: data.name}].concat(await getParentById(data.parentId));
+}
 
 module.exports = {
     getChildrenByFolder,
-    createFolderByName
+    createFolderByName,
+    getParentById
 }

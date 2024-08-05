@@ -1,8 +1,10 @@
-const { getChildrenByFolder, createFolderByName } = require("../model/folderFile");
+const { getChildrenByFolder, createFolderByName, getParentById } = require("../model/folderFile");
 
 const indexPage = async (req, res) => {
     if (req.isAuthenticated()) {
         const folderId = parseInt(req.params.id) || null;
+        const parentPath = await getParentById(folderId);
+        res.locals.currentPath = parentPath;
         const folderFiles = await  getChildrenByFolder(folderId);
         res.render('home', {folder: folderFiles.children, files: folderFiles.file});
     }
