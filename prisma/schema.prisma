@@ -39,9 +39,10 @@ model Folder {
 
 model File {
   id Int @id @default(autoincrement())
+  name String
   file_path String
-  parentId Int
-  parent Folder @relation(fields: [parentId], references: [id])
+  parentId Int?
+  parent Folder? @relation(fields: [parentId], references: [id])
 
   @@unique([parentId, file_path])
 }

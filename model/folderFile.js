@@ -10,7 +10,9 @@ const getChildrenByFolder = async (folderId) => {
     }
     else if (folderId === null){
         children = {
-            file: [],
+            file: await prisma.file.findMany({
+                where: { parentId: null }
+            }),
             children: await prisma.folder.findMany({
                 where: { parentId: null },
                 include: { children: true },
@@ -70,10 +72,32 @@ const editFolderName = async (folderId, folderName) =>{
     })
 }
 
+const uploadFilePath = async (fileName, filePath, parentId) => {
+    if (parentId === null) {
+        await prisma.file.create({
+            data: {
+                name: fileName,
+                file_path: filePath
+            }
+        })
+    }
+    else {
+        await prisma.file.create({
+            data: {
+                name: fileName,
+                file_path: filePath,
+                parent: { connect: { id: parentId } }
+            }
+        })
+    }
+    
+}
+
 module.exports = {
     getChildrenByFolder,
     createFolderByName,
     getParentById,
     deleteFolderById,
-    editFolderName
+    editFolderName,
+    uploadFilePath
 }

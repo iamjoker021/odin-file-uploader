@@ -1,4 +1,4 @@
-<form action="/upload-file" method="post" enctype="multipart/form-data">
+<form action="/upload-file?parentId=<%= locals.currentPath %>" method="post" enctype="multipart/form-data">
     <input type="file" name="uploaded_file" />
     <button type="submit">Upload File</button>
 </form>

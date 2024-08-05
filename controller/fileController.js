@@ -1,4 +1,5 @@
-const { getChildrenByFolder, createFolderByName, getParentById, deleteFolderById, editFolderName } = require("../model/folderFile");
+const path = require('node:path');
+const { getChildrenByFolder, createFolderByName, getParentById, deleteFolderById, editFolderName, uploadFilePath } = require("../model/folderFile");
 
 const indexPage = async (req, res) => {
     if (req.isAuthenticated()) {
@@ -6,7 +7,7 @@ const indexPage = async (req, res) => {
         const parentPath = await getParentById(folderId);
         res.locals.currentPath = folderId;
         const folderFiles = await  getChildrenByFolder(folderId);
-        res.render('home', {folder: folderFiles.children, files: folderFiles.file, path: parentPath});
+        res.render('home', {folder: folderFiles.children, files: folderFiles.file, path: parentPath, root: path.join(__dirname, '..')});
     }
     else {
         res.redirect('/login');
@@ -56,10 +57,35 @@ const editFolder = async (req, res) => {
     }
 }
 
+const uploadFile = async (req, res) => {
+    const { originalname, path } = req.file;
+    const folderId = parseInt(req.query.parentId) || null;
+    await uploadFilePath(originalname, path, folderId)
+    if (folderId) {
+        res.redirect(`/${folderId}`)
+    }
+    else {
+        res.redirect('/');
+    }
+}
+
+const downloadFile = (req, res) => {
+    console.log(req.query);
+    const { filePath } = req.query;
+    console.log(filePath);
+    res.download(filePath, err => {
+        if(err) {
+            res.status(404).json({'msg': 'File not found'});
+        }
+    });
+}
+
 module.exports = {
     indexPage,
     createFolder,
     deleteFolder,
     editFolder,
-    editFolderPage
+    editFolderPage,
+    uploadFile,
+    downloadFile
 }
