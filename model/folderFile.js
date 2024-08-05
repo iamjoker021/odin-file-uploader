@@ -49,7 +49,7 @@ const deleteFolderById = async (folderId) => {
           file: true,
         },
     })
-    
+
     await prisma.file.deleteMany({
         where: { parentId: folderId },
     });
@@ -63,9 +63,17 @@ const deleteFolderById = async (folderId) => {
     })
 }
 
+const editFolderName = async (folderId, folderName) =>{
+    await prisma.folder.update({
+        where: { id: folderId },
+        data: { name: folderName }
+    })
+}
+
 module.exports = {
     getChildrenByFolder,
     createFolderByName,
     getParentById,
-    deleteFolderById
+    deleteFolderById,
+    editFolderName
 }

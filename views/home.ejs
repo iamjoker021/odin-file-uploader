@@ -17,6 +17,7 @@
         <% for(let i=0; i<folder.length; i++) { %>
             <li>
                 <a href="<%= folder[i].id %>"><%= folder[i].name %></a>
+                <a href="<%= folder[i].id %>/edit-folder?parentId=<%= locals.currentPath %>&folderName=<%= folder[i].name %>">Edit</a>
                 <a href="<%= folder[i].id %>/delete?parentId=<%= locals.currentPath %>">Delete</a>
             </li>
         <% } %>

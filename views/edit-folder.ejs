@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('head') %>
+<body>
+    <%- include('navbar') %>
+    <form action="/<%= folderId %>/edit-folder/?parentId=<%= parentId %>" method="POST">
+        <label for="folder-name">New Folder Name</label>
+        <input id="folder-name" name="folder-name" type="text" value="<%= folderName %>" />
+        <button>Update Folder Name</button>
+    </form>
+</body>
+</html>
