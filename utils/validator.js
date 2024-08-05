@@ -35,6 +35,14 @@ const loginValidation = [
     .escape(),
 ]
 
+const createFolderValidation = [
+    body('folder_name')
+    .trim()
+    .notEmpty()
+    .withMessage('Folder Name should not be empty')
+    .escape()
+]
+
 const validate = (req, res, next) => {
     const errors = validationResult(req)
     if (errors.isEmpty()) {
@@ -52,5 +60,6 @@ const validate = (req, res, next) => {
 module.exports = {
     signupValidation,
     loginValidation,
+    createFolderValidation,
     validate
 }

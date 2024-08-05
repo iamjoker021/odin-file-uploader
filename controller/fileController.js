@@ -1,9 +1,9 @@
-const { getChildrenByFolder } = require("../models/folderFile");
+const { getChildrenByFolder, createFolderByName } = require("../model/folderFile");
 
 const indexPage = async (req, res) => {
     if (req.isAuthenticated()) {
-        const folderFiles = await  getChildrenByFolder(null);
-        console.log(folderFiles);
+        const folderId = parseInt(req.params.id) || null;
+        const folderFiles = await  getChildrenByFolder(folderId);
         res.render('home', {folder: folderFiles.children, files: folderFiles.file});
     }
     else {
@@ -11,6 +11,14 @@ const indexPage = async (req, res) => {
     }
 }
 
+const createFolder = async (req, res) => {
+    const { folder_name } = req.body;
+    const parentId = null;
+    await createFolderByName(folder_name, parentId);
+    res.redirect('/');
+}
+
 module.exports = {
-    indexPage
+    indexPage,
+    createFolder
 }

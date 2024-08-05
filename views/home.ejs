@@ -4,6 +4,13 @@
 <body>
     <%- include('navbar') %>
     <h1>ODIN | File Manager App</h1>
+    <% if (locals.path) { %>
+    <p>
+        <% for(let i=0; i<local.path.length; i++) { %>
+            <a href="<%= local.path[i].id %>"><%= local.path[i].name %></a> /
+        <% } %>
+    </p>
+    <% } %>
     <h2>Folders: </h2>
     <ul>
         <% for(let i=0; i<folder.length; i++) { %>
