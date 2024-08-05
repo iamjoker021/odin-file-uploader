@@ -15,7 +15,10 @@
     <h2>Folders: </h2>
     <ul>
         <% for(let i=0; i<folder.length; i++) { %>
-            <li><a href="<%= folder[i].id %>"><%= folder[i].name %></a></li>
+            <li>
+                <a href="<%= folder[i].id %>"><%= folder[i].name %></a>
+                <a href="<%= folder[i].id %>/delete?parentId=<%= locals.currentPath %>">Delete</a>
+            </li>
         <% } %>
     </ul>
     <h2>Files: </h2>

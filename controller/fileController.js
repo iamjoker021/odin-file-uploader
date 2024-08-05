@@ -1,4 +1,4 @@
-const { getChildrenByFolder, createFolderByName, getParentById } = require("../model/folderFile");
+const { getChildrenByFolder, createFolderByName, getParentById, deleteFolderById } = require("../model/folderFile");
 
 const indexPage = async (req, res) => {
     if (req.isAuthenticated()) {
@@ -25,7 +25,20 @@ const createFolder = async (req, res) => {
     }
 }
 
+const deleteFolder = async (req, res) => {
+    const parentId = parseInt(req.query.parentId) || null;
+    const folderId = parseInt(req.params.id);
+    await deleteFolderById(folderId);
+    if (parentId) {
+        res.redirect(`/${parentId}`)
+    }
+    else {
+        res.redirect('/');
+    }
+}
+
 module.exports = {
     indexPage,
-    createFolder
+    createFolder,
+    deleteFolder
 }

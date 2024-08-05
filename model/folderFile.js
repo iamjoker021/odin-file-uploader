@@ -41,8 +41,31 @@ const getParentById = async (folderId) => {
     return [{id: data.parentId, name: data.name}].concat(await getParentById(data.parentId));
 }
 
+const deleteFolderById = async (folderId) => {
+    const folder = await prisma.folder.findUnique({
+        where: { id: folderId },
+        include: {
+          children: true,
+          file: true,
+        },
+    })
+    
+    await prisma.file.deleteMany({
+        where: { parentId: folderId },
+    });
+
+    for (const child of folder.children) {
+        await deleteFolderById(child.id)
+    }
+
+    await prisma.folder.delete({
+        where: { id: folderId }
+    })
+}
+
 module.exports = {
     getChildrenByFolder,
     createFolderByName,
-    getParentById
+    getParentById,
+    deleteFolderById
 }

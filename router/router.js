@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { signupPage, loginPage, addUser, logoutUser } = require('../controller/authController');
 const { validate, signupValidation, loginValidation, createFolderValidation } = require('../utils/validator');
 const passport = require('passport');
-const { indexPage, createFolder } = require('../controller/fileController');
+const { indexPage, createFolder, deleteFolder } = require('../controller/fileController');
 
 const router = Router();
 router.get('/sign-up', signupPage);
@@ -13,6 +13,7 @@ router.get('/logout', logoutUser);
 
 router.get('/', indexPage);
 router.get('/:id', indexPage);
+router.get('/:id/delete', deleteFolder);
 
 router.post('/create-folder', createFolderValidation, validate, createFolder)
 
