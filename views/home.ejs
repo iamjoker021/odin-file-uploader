@@ -4,11 +4,11 @@
 <body>
     <%- include('navbar') %>
     <h1>ODIN | File Manager App</h1>
-    <% if (locals.currentPath) { %>
+    <% if (path) { %>
     <p>
         <a href="/">Home</a> /
-        <% for(let i=0; i<locals.currentPath.length; i++) { %>
-            <a href="<%= locals.currentPath[i].id %>"><%= locals.currentPath[i].name %></a> /
+        <% for(let i=path.length-1; i>=0; i--) { %>
+            <a href="<%= path[i].id %>"><%= path[i].name %></a> /
         <% } %>
     </p>
     <% } %>

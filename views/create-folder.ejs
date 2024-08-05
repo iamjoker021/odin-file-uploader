@@ -1,4 +1,4 @@
-<form action="/create-folder" method="post">
+<form action="/create-folder?parentId=<%= locals.currentPath %>" method="post">
     <label for="folder_name">Folder Name: </label>
     <input type="text" name="folder_name" id="folder_name" />
     <button type="submit">Create Folder</button>
